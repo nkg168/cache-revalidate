@@ -1,5 +1,5 @@
 @import "tailwindcss";
 
 button {
-	@apply py-2 px-4 rounded border;
+	@apply py-2 px-4 rounded border cursor-pointer;
 }
