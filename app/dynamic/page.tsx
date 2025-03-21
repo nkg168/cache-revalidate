@@ -1,3 +1,4 @@
+import { Forms } from "../forms";
 import { getCurrentTime } from "../lib";
 
 export const dynamic = "force-dynamic";
@@ -5,5 +6,10 @@ export const dynamic = "force-dynamic";
 // https://nextjs.org/docs/14/app/building-your-application/rendering/server-components#dynamic-functions
 
 export default function () {
-	return <div>{getCurrentTime()}</div>;
+	return (
+		<div>
+			<Forms />
+			<p>{getCurrentTime()}</p>
+		</div>
+	);
 }

@@ -3,7 +3,7 @@
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getCurrentTimeAsync } from "../lib";
+import { getCurrentTimeAsync } from "./lib";
 
 export const formAction = async (formData: FormData) => {
 	console.log("formAction");
