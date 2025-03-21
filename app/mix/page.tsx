@@ -8,9 +8,11 @@ import {
 	formActionRevalidatePathRoot,
 	formActionRevalidatePathStatic,
 	formActionRevalidateTag5,
+	formActionRevalidateTagId,
 	formActionRevalidateTagIndefinitely,
 	getData,
 	getDataUnstableCache5,
+	getDataUnstableCacheId,
 	getDataUnstableCacheIndefinitely,
 } from "./functions";
 
@@ -23,6 +25,8 @@ export default async function () {
 				<FormRevalidatePathRoot />
 				<FormRevalidate5 />
 				<FormRevalidateIndefinitely />
+				<FormRevalidateId id={"1"} />
+				<FormRevalidateId id={"2"} />
 				<FormRedirect />
 				<FormCookieSet />
 				<FormCookieGet />
@@ -36,6 +40,12 @@ export default async function () {
 				</Suspense>
 				<Suspense fallback={<p>Loading...</p>}>
 					<ResultUnstableCacheIndefinitely />
+				</Suspense>
+				<Suspense fallback={<p>Loading...</p>}>
+					<ResultUnstableCacheId id={"1"} />
+				</Suspense>
+				<Suspense fallback={<p>Loading...</p>}>
+					<ResultUnstableCacheId id={"2"} />
 				</Suspense>
 			</div>
 		</div>
@@ -82,6 +92,15 @@ const FormRevalidateIndefinitely = () => {
 	);
 };
 
+const FormRevalidateId = ({ id }: { id: string }) => {
+	return (
+		<form action={formActionRevalidateTagId}>
+			<input type="hidden" name="id" value={id} />
+			<button type="submit">RevalidateTagId {id}</button>
+		</form>
+	);
+};
+
 const FormRedirect = () => {
 	return (
 		<form action={formActionRedirect}>
@@ -122,6 +141,17 @@ const ResultUnstableCache5 = async () => {
 	return (
 		<>
 			<p>unstable cache 5</p>
+			<RenderTime />
+			<p>{result}</p>
+		</>
+	);
+};
+
+const ResultUnstableCacheId = async ({ id }: { id: string }) => {
+	const result = await getDataUnstableCacheId(id);
+	return (
+		<>
+			<p>unstable cache id {id}</p>
 			<RenderTime />
 			<p>{result}</p>
 		</>

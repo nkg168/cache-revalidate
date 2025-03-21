@@ -35,6 +35,28 @@ export const getDataUnstableCache5 = unstable_cache(
 	},
 );
 
+// https://github.com/vercel/next.js/discussions/61638
+export const getDataUnstableCacheId = (id: string) =>
+	unstable_cache(
+		async (id) => {
+			const result = await getCurrentTimeAsync();
+			console.log(`${result} getDataUnstableCacheId`, id);
+			return result;
+		},
+		undefined,
+		{
+			tags: [id],
+			revalidate: false,
+		},
+	)(id);
+
+export const formActionRevalidateTagId = async (formData: FormData) => {
+	const id = formData.get("id")?.toString();
+	if (!id) throw new Error("id is required");
+	console.log("formActionRevalidateTagId", id);
+	revalidateTag(id);
+};
+
 const TagIndefinitely = "TagIndefinitely";
 
 export const formActionRevalidateTagIndefinitely = async (
