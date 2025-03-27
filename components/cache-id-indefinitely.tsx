@@ -1,5 +1,5 @@
+import { getCurrentTimeAsync } from "@/lib";
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
-import { getCurrentTimeAsync } from "../lib";
 import { CurrentTime } from "./current-time";
 
 // https://github.com/vercel/next.js/discussions/61638

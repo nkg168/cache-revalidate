@@ -1,7 +1,7 @@
+import { ResultCache5 } from "@/components/cache-5";
+import { ResultCacheIndefinitely } from "@/components/cache-id-indefinitely";
+import { ResultNoCache } from "@/components/no-cache";
 import { Suspense } from "react";
-import { ResultCache5 } from "../components/cache-5";
-import { ResultCacheIndefinitely } from "../components/cache-id-indefinitely";
-import { ResultNoCache } from "../components/no-cache";
 import { Forms } from "../forms";
 
 export default async function MixPage() {

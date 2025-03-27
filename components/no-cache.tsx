@@ -1,4 +1,4 @@
-import { getCurrentTimeAsync } from "../lib";
+import { getCurrentTimeAsync } from "@/lib";
 import { CurrentTime } from "./current-time";
 
 const getData = async () => {

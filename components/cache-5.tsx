@@ -1,5 +1,5 @@
+import { getCurrentTimeAsync } from "@/lib";
 import { revalidateTag, unstable_cache } from "next/cache";
-import { getCurrentTimeAsync } from "../lib";
 import { CurrentTime } from "./current-time";
 export const Tag = "tag5";
 

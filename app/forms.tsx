@@ -1,8 +1,8 @@
+import { FormRevalidate5 } from "@/components/cache-5";
+import { FormRevalidateIndefinitely } from "@/components/cache-id-indefinitely";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { FormRevalidate5 } from "./components/cache-5";
-import { FormRevalidateIndefinitely } from "./components/cache-id-indefinitely";
 
 export const Forms = () => (
 	<div className="flex gap-2">
