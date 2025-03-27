@@ -1,15 +1,8 @@
-import { Suspense } from "react";
-import {
-	formAction,
-	formActionCookieGet,
-	formActionCookieSet,
-	formActionRedirect,
-	formActionRevalidatePathRoot,
-	formActionRevalidatePathStatic,
-	formActionRevalidateTag5,
-	formActionRevalidateTagId,
-	formActionRevalidateTagIndefinitely,
-} from "./functions";
+import { FormRevalidate5 } from "@/components/cache-5";
+import { FormRevalidateIndefinitely } from "@/components/cache-id-indefinitely";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const Forms = () => (
 	<div className="flex gap-2">
@@ -17,84 +10,96 @@ export const Forms = () => (
 		<FormRevalidatePathStatic />
 		<FormRevalidatePathRoot />
 		<FormRevalidate5 />
-		<FormRevalidateIndefinitely />
-		<FormRevalidateId id={"1"} />
-		<FormRevalidateId id={"2"} />
-		<FormRedirect />
+		<FormRevalidateIndefinitely tag={"1"} />
+		<FormRevalidateIndefinitely tag={"2"} />
+		<FormRedirectToMix />
 		<FormCookieSet />
 		<FormCookieGet />
 	</div>
 );
 
 const Form = () => {
+	const action = async () => {
+		"use server";
+		console.log("formAction");
+	};
 	return (
-		<form action={formAction}>
-			<button type="submit">アクション</button>
+		<form action={action}>
+			<button type="submit">Just call</button>
 		</form>
 	);
 };
 
 const FormRevalidatePathStatic = () => {
+	const action = async () => {
+		"use server";
+		// Revalidating data on-demand by path with (revalidatePath) or by cache tag with (revalidateTag)
+		// https://nextjs.org/docs/14/app/building-your-application/caching#invalidation-1
+		console.log("revalidatePath /static");
+		// アクションを実行したページのRouter Cache&指定したページのRouter/Data Cacheが無効化される
+		// revalidatePath purges the Data Cache and Full Route Cache
+		revalidatePath("/static");
+	};
 	return (
-		<form action={formActionRevalidatePathStatic}>
-			<button type="submit">RevalidatePathStatic</button>
+		<form action={action}>
+			<button type="submit">RevalidatePath /static</button>
 		</form>
 	);
 };
 
 const FormRevalidatePathRoot = () => {
+	const action = async () => {
+		"use server";
+		// Revalidating data on-demand by path with (revalidatePath) or by cache tag with (revalidateTag)
+		// https://nextjs.org/docs/14/app/building-your-application/caching#invalidation-1
+		console.log("revalidatePath /");
+		revalidatePath("/");
+	};
 	return (
-		<form action={formActionRevalidatePathRoot}>
-			<button type="submit">RevalidatePathRoot</button>
+		<form action={action}>
+			<button type="submit">RevalidatePath /</button>
 		</form>
 	);
 };
 
-const FormRevalidate5 = () => {
+const FormRedirectToMix = () => {
+	const action = async () => {
+		"use server";
+		console.log("redirect to /mix");
+		redirect("/mix");
+	};
 	return (
-		<form action={formActionRevalidateTag5}>
-			<button type="submit">RevalidateTag5</button>
-		</form>
-	);
-};
-
-const FormRevalidateIndefinitely = () => {
-	return (
-		<form action={formActionRevalidateTagIndefinitely}>
-			<button type="submit">RevalidateTagIndefinitely</button>
-		</form>
-	);
-};
-
-const FormRevalidateId = ({ id }: { id: string }) => {
-	return (
-		<form action={formActionRevalidateTagId}>
-			<input type="hidden" name="id" value={id} />
-			<button type="submit">RevalidateTagId {id}</button>
-		</form>
-	);
-};
-
-const FormRedirect = () => {
-	return (
-		<form action={formActionRedirect}>
-			<button type="submit">Redirect</button>
+		<form action={action}>
+			<button type="submit">Redirect to /mix</button>
 		</form>
 	);
 };
 
 const FormCookieSet = () => {
+	const setCookie = async () => {
+		"use server";
+		// Using cookies.set or cookies.delete invalidates the Router Cache to prevent routes that use cookies from becoming stale (e.g. authentication).
+		// https://nextjs.org/docs/14/app/building-your-application/caching#invalidation-1
+		console.log("setCookie");
+		cookies().set("cookie", "cookie");
+	};
 	return (
-		<form action={formActionCookieSet}>
-			<button type="submit">Cookie Set</button>
+		<form action={setCookie}>
+			<button type="submit">Set cookie</button>
 		</form>
 	);
 };
 
 const FormCookieGet = () => {
+	const getCookie = async () => {
+		"use server";
+		console.log("getCookie");
+		// クッキーを取得するだけだからRouter Cacheは無効化されない
+		cookies().get("cookie");
+	};
 	return (
-		<form action={formActionCookieGet}>
-			<button type="submit">Cookie Get</button>
+		<form action={getCookie}>
+			<button type="submit">Get cookie</button>
 		</form>
 	);
 };

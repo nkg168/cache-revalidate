@@ -1,6 +1,6 @@
 import { NavLink } from "./nav-link";
 import "./globals.css";
-import { getCurrentTime } from "./lib";
+import { getCurrentTime } from "@/lib";
 export default function RootLayout({
 	children,
 }: Readonly<{
