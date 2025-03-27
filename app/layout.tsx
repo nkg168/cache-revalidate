@@ -9,7 +9,7 @@ export default function RootLayout({
 	return (
 		<html lang="ja">
 			<body>
-				<RenderTime />
+				<RenderTime testId="root-layout-render-time" />
 				<Links />
 				{children}
 			</body>
@@ -17,8 +17,8 @@ export default function RootLayout({
 	);
 }
 
-const RenderTime = () => {
-	return <p>{getCurrentTime()}</p>;
+const RenderTime = ({ testId }: { testId?: string }) => {
+	return <p data-testid={testId}>{getCurrentTime()}</p>;
 };
 
 const Links = () => (
